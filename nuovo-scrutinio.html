@@ -1,0 +1,32 @@
+<!--qui ci andrà la index, la index diventerà per scegliere la classe e altra roba così-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="author" content="Giovanni Ciaranfi"/>
+        <title>Scrutini</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <style>
+            .genere{}
+            .debiti{}
+            form{
+                margin-bottom: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="elabora.php?ref=esito" method="post" name="scrutinio">
+            <label for="nominativo">Nominativo: </label><input type="text" name="name" id="nominativo" pattern="[a-zA-Z ]{3,}" required><br/>
+            <label>Genere: </label><!--meglio una select-->
+                <input type="radio" name="sex" class="genere" value="M" required>Maschio<br/>
+                <input type="radio" name="sex" class="genere" value="F" required>Femmina<br/>
+            <label>Debiti: </label>
+                <input type="checkbox" name="debs[]" class="debiti" value="ITA">ITA<br/>
+                <input type="checkbox" name="debs[]" class="debiti" value="MAT">MAT<br/>
+                <input type="checkbox" name="debs[]" class="debiti" value="TEL">TEL<br/>
+                <input type="checkbox" name="debs[]" class="debiti" value="INF">INF<br/>
+                <input type="submit" value="Esito scrutinio">
+        </form>
+        <a href="elabora.php?ref=risultati">Visualizza dati inseriti</a><br/>
+        <a href="elabora.php?ref=termina">Termina lo scrutinio</a>
+    </body>
+</html>

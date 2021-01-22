@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="author" content="Giovanni Ciaranfi"/>
+        <title>Risultati finali</title><!--dati archiviati, quel che è fatto è fatto-->
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <style>
+            table{
+                border-spacing: 0px;
+                border-collapse: collapse;
+            }
+            td,th{
+                border: solid black 1px;
+            }
+            th{
+                padding: 5px;
+                font-size: 1.5em;
+            }
+            td{
+                padding: 0px;
+                padding-right: 3px;
+                font-size: 1em;
+            }
+            table th, table td{
+                width: fit-content;
+            }
+            .empty-col{
+                border: none;
+            }
+            .nominativo{}
+            .esito{}
+            .pos{}
+            .neg{}
+            .debiti{}
+            .no-data{
+                padding: 3px;
+            }
+            .num{
+                text-align: right;
+                min-width: 15px;
+            }
+            .num::before{
+                counter-increment: number;
+                content: counter(number);
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th scope="col" class="empty-col"></th>
+                <th scope="col">Nominativo</th>
+                <th scope="col">Esito</th>
+                <th scope="col">Debiti</th>
+            </tr>
+            <?php echo $studenti; ?>
+        </table>
+        <a href="index.html">Crea un nuovo scrutinio</a>
+        <!--inseriemento nuovo-scrutinio.html con possibilità di mettere la classe-->
+    </body>
+</html>

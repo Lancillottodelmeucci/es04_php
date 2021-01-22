@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="author" content="Giovanni Ciaranfi"/>
+        <title>Scrutini</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <style>
+            form{
+                margin-bottom: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="elabora.php?ref=nuovo" method="post">
+            <label for="classe">Classe: </label><input type="text" name="classe" id="classe" pattern="[a-zA-Z0-9 _-]{2,}" required><br/>
+                <input type="submit" value="Inizia scrutinio">
+        </form>
+    </body>
+</html>
+<!--mettere pagina di accesso: per ogni docente mettere un set di classi tra cui scegliere per fare lo scrutinio?-->
