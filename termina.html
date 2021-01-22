@@ -5,6 +5,9 @@
         <title>Risultati finali</title><!--dati archiviati, quel che è fatto è fatto-->
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <style>
+            body{
+                counter-reset: number;
+            }
             table{
                 border-spacing: 0px;
                 border-collapse: collapse;
@@ -49,11 +52,12 @@
         <table>
             <tr>
                 <th scope="col" class="empty-col"></th>
-                <th scope="col">Nominativo</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cognome</th>
                 <th scope="col">Esito</th>
                 <th scope="col">Debiti</th>
             </tr>
-            <?php echo $studenti; ?>
+            <?php echo $output; ?>
         </table>
         <a href="index.html">Crea un nuovo scrutinio</a>
         <!--inseriemento nuovo-scrutinio.html con possibilità di mettere la classe-->

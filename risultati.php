@@ -71,12 +71,13 @@
         <table>
             <tr>
                 <th scope="col" class="empty-col"></th>
-                <th scope="col">Nominativo</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cognome</th>
                 <th scope="col">Esito</th>
                 <th scope="col">Debiti</th>
                 <th scope="col" class="empty-col"></th>
             </tr>
-            <?php echo $studenti; ?>
+            <?php echo $output; ?>
         </table>
         <a href="elabora.php?ref=ins">Inserisci nuovi dati</a><br/>
         <a href="elabora.php?ref=termina">Termina lo scrutinio</a>
