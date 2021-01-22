@@ -11,7 +11,7 @@
         </style>
     </head>
     <body>
-        <p><strong><?php echo $nominativo; ?></strong> <?php echo $esito; ?></p>
+        <p><strong><?php echo $nome." ".$cognome; ?></strong> <?php echo $esito; ?></p>
         <?php if(isset($debiti)){echo $debiti;} ?>
         <a href="elabora.php?ref=ins">Inserisci nuovi dati</a><br/>
         <a href="elabora.php?ref=termina">Termina lo scrutinio</a>

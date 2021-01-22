@@ -15,7 +15,8 @@
     </head>
     <body>
         <form action="elabora.php?ref=esito" method="post" name="scrutinio">
-            <label for="nominativo">Nominativo: </label><input type="text" name="name" id="nominativo" pattern="[a-zA-Z ]{3,}" required><br/>
+            <label for="nome">Nome: </label><input type="text" name="name" id="nome" pattern="[a-zA-Z ]{2,60}" required><br/>
+            <label for="cognome">Cognome: </label><input type="text" name="surname" id="cognome" pattern="[a-zA-Z ]{2,60}" required><br/>
             <label>Genere: </label><!--meglio una select-->
                 <input type="radio" name="sex" class="genere" value="M" required>Maschio<br/>
                 <input type="radio" name="sex" class="genere" value="F" required>Femmina<br/>

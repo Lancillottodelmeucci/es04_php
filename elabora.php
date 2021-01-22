@@ -9,11 +9,13 @@
     ];
     session_start();
     #session_destroy();
+    include ("funzioni.php");
     if(!validazioneRichiesta()){
         $error="non è stato possibile completare la richiesta.";
         include($ERR_PAGE);
         die();
     }
+    $conn=mysqli_connect("127.0.0.1","root","","scrutini",3333);
     switch($_GET['ref']){
         case "ins":
             if(!isset($_SESSION['classe'])||$_SESSION['classe']==""){
@@ -24,10 +26,16 @@
             }
             break;
         case "nuovo":
-            if(!nuovaClasse()){
+            if(!preg_match("/[a-zA-Z0-9 _-]{2,6}/",$_POST['classe'])){
+                $error="dati inviati non corretti";
+                include($ERR_PAGE);
+                die();
+            }
+            if(!nuovaClasse($conn)){
                 $error="classe gi&agrave; inserita";
                 include($ERR_PAGE);
                 die();
+                #si potrà modificare la classe quando ci saranno gli accessi e bla bla bla
             }
             $_SESSION['classe']=$_POST['classe'];
             include("nuovo-scrutinio.html");
@@ -38,138 +46,49 @@
                 include($ERR_PAGE);
                 die();
             }
-            if(!nuovoStudente()){
+            if(!nuovoStudente($conn)){
                 $error="dati gi&agrave; inseriti";
                 include($ERR_PAGE);
                 die();
             }
-            $nominativo=strtolower($_POST['name']);
-            $pron=strtoupper($_POST['sex'])=='M'?"o":"a";
-            $_SESSION['studenti'][]=strtolower($nominativo).".".
-                strtolower($_POST['sex']).".".
-                strtolower(isset($_POST['debs'])?(count($_POST['debs'])>2?"non ammess$pron":"ammess$pron"):"ammess$pron").
-                strtoupper(isset($_POST['debs'])?".".join("-",$_POST['debs']):"");
-            #echo "".join("-",$_SESSION['studenti']);
+            $nome=strtolower($_POST['name']);
+            $cognome=strtolower($_POST['surname']);
+            $sesso=strtolower($_POST['sex']);
+            $classe=strtolower($_SESSION['classe']);
+            $pron=$sesso=='m'?"o":"a";
             $esito=isset($_POST['debs'])?(count($_POST['debs'])>2?
                 "non &egrave; stat$pron ammess$pron":" &egrave; stat$pron ammess$pron"):" &egrave; stat$pron ammess$pron";
+            $dati=mysqli_query($conn,"insert into studenti (nome,cognome,classe,sesso)
+                values ('$nome','$cognome','$classe','$sesso');");
+            if(isset($_POST['debs'])){
+                for($i=0;$i<count($_POST['debs']);$i++){
+                    $dati=mysqli_query($conn,"insert into debiti (id_studente,materia) values(
+                        (select ID_studente from studenti where nome='$nome' and cognome='$cognome' and classe='$classe'),
+                        '".$_POST['debs'][$i]."');");
+                }
+            }
+            mysqli_close($conn);
             include("esito".$EXT);
             break;
         case "risultati":
-            if(isset($_SESSION['studenti'])){
-                if(count($_SESSION['studenti'])<1){
-                    $studenti="<tr><td class='empty-col'></td><td class='no-data'
-                     colspan='3'>Nessun dato refistrato.</td></tr>";
-                }
-                else{
-                    $dati=$_SESSION['studenti'];
-                    $studenti="";
-                    for($i=0;$i<count($dati);$i++){
-                        $studente=explode(".",$dati[$i]);
-                        $row="<tr><td class='num'></td><td class='nominativo'>".$studente[0]."</td>
-                            <td class='esito ".(substr($studente[2],0,3)=="non"?"neg":"pos")."'>".$studente[2]."</td>";
-                        if(isset($studente[3])){
-                            $debiti=explode("-",$studente[3]);
-                            $row=$row."<td class='debiti'>";
-                            for ($j=0; $j < count($debiti); $j++) { 
-                                $mat=$debiti[$j];
-                                #echo "".join("-",$debiti);
-                                $row=$row.$materie[$mat];
-                                if($j<count($debiti)-1){
-                                    $row=$row.", ";
-                                }
-                            }
-                            $row=$row."</td>";
-                        }
-                        else{
-                            $row=$row."<td class='no-data'></td>";
-                        }
-                        $row=$row."<td class='edit'></td></tr>";
-                        $studenti=$studenti.$row;
-                    }
-                }
-            }
-            else{
-                $studenti="<tr><td class='empty-col'></td><td
-                 colspan='3'>Nessun dato registrato.</td></tr>";
-            }
+            $output=getTabellone($conn,"ris");
+            mysqli_close($conn);
             include("risultati.php");
             break;
         case "termina":
-            if(isset($_SESSION['studenti'])){
-                if(count($_SESSION['studenti'])<1){
-                    $studenti="<tr><td class='empty-col'></td><td class='no-data'
-                     colspan='3'>Nessun dato refistrato.</td></tr>";
-                }
-                else{
-                    $dati=$_SESSION['studenti'];
-                    $studenti="";
-                    for($i=0;$i<count($dati);$i++){
-                        $studente=explode(".",$dati[$i]);
-                        $row="<tr><td></td><td>".$studente[0]."</td><td>".$studente[2]."</td>";
-                        if(isset($studente[3])){
-                            $debiti=explode("-",$studente[3]);
-                            $row=$row."<td>";
-                            for ($j=0; $j < count($debiti); $j++) { 
-                                $mat=$debiti[$j];
-                                #echo "".join("-",$debiti);
-                                $row=$row.$materie[$mat];
-                                if($j<count($debiti)-1){
-                                    $row=$row.", ";
-                                }
-                            }
-                            $row=$row."</td>";
-                        }
-                        else{
-                            $row=$row."<td></td>";
-                        }
-                        $row=$row."</tr>";
-                        $studenti=$studenti.$row;
-                    }
-                }
+            if(!isset($_SESSION['classe'])){
+                $error="nessuno scrutinio in corso.";
+                include($ERR_PAGE);
+                die();
             }
-            else{
-                $studenti="<tr><td class='empty-col'></td><td
-                 colspan='3'>Nessun dato registrato.</td></tr>";
-            }
+            $output=getTabellone($conn);
+            mysqli_close($conn);
             include("termina.html");
-            if (isset($_SESSION['studenti'])) {
-                salvaScrutinio($_SESSION['classe']);
-            }
             session_destroy();
             break;
         default:
         $error="elaborazione non riuscita";
             include($ERR_PAGE);
             break;
-    }
-    function salvaScrutinio($n){
-        $file=fopen("scrutini/$n","w");
-        for ($i=0; $i < count($_SESSION['studenti']); $i++) { 
-            fwrite($file,$_SESSION['studenti'][$i]."\n");
-        }
-        fclose($file);
-    }
-    function nuovaClasse(){
-        return true;
-    }
-    function nuovoStudente(){
-        $s=0;$s++;
-        return true;
-    }
-    function controlloForm(){
-        if(!isset($_POST['name'])||!isset($_POST['sex'])){
-            return false;
-        }
-        return true;
-    }
-    function validazioneRichiesta(){
-        if(!isset($_GET['ref'])){
-            return false;
-        }
-        $ref=$_GET['ref'];
-        if($ref!='esito'&&$ref!='risultati'&&$ref!='termina'&&$ref!='nuovo'&&$ref!='ins'){
-            return false;
-        }
-        return true;
     }
 ?>
