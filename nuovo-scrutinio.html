@@ -9,25 +9,75 @@
             .genere{}
             .debiti{}
             form{
+                width: fit-content;
+                margin: auto;
+                background-color: #e7e7e7;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: left;
                 margin-bottom: 15px;
+                zoom: 1.2;
+            }
+            label{
+                display: flex;
+            }
+            input[type=text]{
+                border: none;
+                padding: 3px;
+                border-radius: 3px;
+            }
+            input[type=checkbox]{
+
+            }
+            input[type=submit]{
+                margin-top: 10px;
+                padding: 5px 10px;
+                background-color: #cacaca;
+                border: none;
+                border-radius: 3px;
+                transition: background-color .3s;
+                justify-self: center;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            input[type=submit]:hover{
+                background-color: #a5a5a5;
+            }
+            .opt{
+                padding: 5px;
+                display: table;
+                text-decoration: none;
+                color: black;
+                border-radius: 5px;
+                background-color: #e7e7e7;
+                margin: 3px auto;
+                vertical-align: middle;
+            }
+            .opt img,form img{
+                width: 10px;
+                margin-left: 5px;
             }
         </style>
     </head>
     <body>
+        <?php $page='scrutinio';include("menu.html"); ?>
         <form action="elabora.php?ref=esito" method="post" name="scrutinio">
-            <label for="nome">Nome: </label><input type="text" name="name" id="nome" pattern="[a-zA-Z ]{2,60}" required><br/>
-            <label for="cognome">Cognome: </label><input type="text" name="surname" id="cognome" pattern="[a-zA-Z ]{2,60}" required><br/>
+            <label for="nome">Nome: </label><input type="text" name="name" id="nome"
+                placeholder="es. Nome" pattern="[a-zA-Z ]{2,60}" required><br/>
+            <label for="cognome">Cognome: </label><input type="text" name="surname" id="cognome"
+                placeholder="es. Cognome" pattern="[a-zA-Z ]{2,60}" required><br/>
             <label>Genere: </label><!--meglio una select-->
-                <input type="radio" name="sex" class="genere" value="M" required>Maschio<br/>
-                <input type="radio" name="sex" class="genere" value="F" required>Femmina<br/>
+                <input type="radio" name="sex" class="genere" value="M" required>Maschio<img alt="" src="male.svg"/><br/>
+                <input type="radio" name="sex" class="genere" value="F" required>Femmina<img alt="" src="female.svg"/><br/>
             <label>Debiti: </label>
-                <input type="checkbox" name="debs[]" class="debiti" value="ITA">ITA<br/>
-                <input type="checkbox" name="debs[]" class="debiti" value="MAT">MAT<br/>
+                <input type="checkbox" name="debs[]" class="debiti" value="ITA">ITA
+                <input type="checkbox" name="debs[]" class="debiti" value="MAT">MAT
                 <input type="checkbox" name="debs[]" class="debiti" value="TEL">TEL<br/>
                 <input type="checkbox" name="debs[]" class="debiti" value="INF">INF<br/>
-                <input type="submit" value="Esito scrutinio">
+            <input type="submit" value="Esito scrutinio">
         </form>
-        <a href="elabora.php?ref=risultati">Visualizza dati inseriti</a><br/>
-        <a href="elabora.php?ref=termina">Termina lo scrutinio</a>
+        <a class="opt" href="elabora.php?ref=risultati">Visualizza dati inseriti<img alt="" src="list.svg"/></a>
+        <a class="opt" href="elabora.php?ref=termina">Termina lo scrutinio<img alt="" src="done.svg"/></a>
     </body>
 </html>

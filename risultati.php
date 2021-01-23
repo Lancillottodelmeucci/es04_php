@@ -11,6 +11,8 @@
             table{
                 border-spacing: 0px;
                 border-collapse: collapse;
+                margin: auto;
+                margin-bottom: 10px;
             }
             table tr td, table tr th{
                 width: fit-content;
@@ -24,7 +26,7 @@
                 font-size: 1.5em;
             }
             td{
-                padding: 1px 2px;
+                padding: 5px 3px;
                 padding-right: 3px;
                 font-size: 1em;
             }
@@ -60,14 +62,30 @@
             .num{
                 text-align: right;
                 min-width: 15px;
+                border: none;
             }
             .num::before{
                 counter-increment: number;
                 content: counter(number);
             }
+            .opt{
+                padding: 5px;
+                display: table;
+                text-decoration: none;
+                color: black;
+                border-radius: 5px;
+                background-color: #e7e7e7;
+                margin: 3px auto;
+                vertical-align: middle;
+            }
+            .opt img,form img{
+                width: 10px;
+                margin-left: 5px;
+            }
         </style>
     </head>
     <body>
+        <?php $page='scrutinio';include("menu.html"); ?>
         <table>
             <tr>
                 <th scope="col" class="empty-col"></th>
@@ -79,7 +97,7 @@
             </tr>
             <?php echo $output; ?>
         </table>
-        <a href="elabora.php?ref=ins">Inserisci nuovi dati</a><br/>
-        <a href="elabora.php?ref=termina">Termina lo scrutinio</a>
+        <a class="opt" href="elabora.php?ref=ins">Inserisci nuovi dati<img alt="" src="add.svg"/></a>
+        <a class="opt" href="elabora.php?ref=termina">Termina lo scrutinio<img alt="" src="done.svg"/></a>
     </body>
 </html>

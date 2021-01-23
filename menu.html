@@ -1,0 +1,28 @@
+<style>
+    #menu{
+        display: flex;
+        margin: 0px;
+        justify-content: center;
+        border-bottom: 2px solid grey;
+        margin-bottom: 5px;
+    }
+    #menu a{
+        text-decoration: none;
+        color: black;
+        font-size: 2em;
+        padding: 20px;
+        transition: background-color .3s;
+    }
+    #menu a.selected{
+        text-decoration: underline;
+    }
+    #menu a:hover{
+        background-color: #e7e7e7;
+    }
+</style>
+<div id="menu">
+    <a href="index.php" <?php echo $page=='home'?'class="selected"':''; ?> >HOME</a>
+    <a href="nuovo.php" <?php echo $page=='scrutinio'?'class="selected"':''; ?> >NUOVO SCRUTINIO</a>
+    <a href="elabora.php?ref=classi" <?php echo $page=='classi'?'class="selected"':''; ?> >CLASSI</a>
+    <a href="about.php" <?php echo $page=='info'?'class="selected"':''; ?> >INFO</a>
+</div>

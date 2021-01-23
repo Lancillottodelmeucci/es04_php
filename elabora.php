@@ -19,14 +19,14 @@
     switch($_GET['ref']){
         case "ins":
             if(!isset($_SESSION['classe'])||$_SESSION['classe']==""){
-                include("index.html");
+                include("index.php");
             }
             else{
                 include("nuovo-scrutinio.html");
             }
             break;
         case "nuovo":
-            if(!preg_match("/[a-zA-Z0-9 _-]{2,6}/",$_POST['classe'])){
+            if(!preg_match("/[a-zA-Z1-5 _-]{2,6}/",$_POST['classe'])){
                 $error="dati inviati non corretti";
                 include($ERR_PAGE);
                 die();
@@ -41,6 +41,11 @@
             include("nuovo-scrutinio.html");
             break;
         case 'esito':
+            if(!isset($_SESSION['classe'])||$_SESSION['classe']==""){
+                $error="nessuno scrutinio in corso.";
+                include($ERR_PAGE);
+                die();
+            }
             if(!controlloForm()){
                 $error="dati inviati non corretti";
                 include($ERR_PAGE);
@@ -71,6 +76,11 @@
             include("esito".$EXT);
             break;
         case "risultati":
+            if(!isset($_SESSION['classe'])||$_SESSION['classe']==""){
+                $error="nessuno scrutinio in corso.";
+                include($ERR_PAGE);
+                die();
+            }
             $output=getTabellone($conn,"ris");
             mysqli_close($conn);
             include("risultati.php");

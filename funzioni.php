@@ -9,7 +9,7 @@
             for($r=0;$r<$num_rows;$r++){
                 $studente=mysqli_fetch_row($studenti);
                 $studente=array("nome"=>$studente[0],"cognome"=>$studente[1],"sesso"=>$studente[2]);
-                $row="<tr><td class='num'></td><td class='nome'>".$studente['nome']."</td><td class='cognome'>".$studente['cognome']."</td>";
+                $row="<tr><td class='num'></td><td class='nominativo'>".$studente['nome']."</td><td class='nominativo'>".$studente['cognome']."</td>";
                 $dati=mysqli_query($conn,"select materia from debiti where id_studente=(
                     select ID_studente from studenti where nome='".$studente['nome']."' and cognome='".$studente['cognome']."' and
                     classe='".$_SESSION['classe']."') order by materia;");
@@ -55,14 +55,14 @@
     function nuovoStudente($conn){
         $dati=mysqli_query($conn,"select ID_studente from studenti where nome='".$_POST['name']."' and cognome=
             '".$_POST['surname']."' and classe='".$_SESSION['classe']."';");
-        echo " arriva qui: ".join(" - ",mysqli_fetch_row($dati));
+        #echo " arriva qui: ".join(" - ",mysqli_fetch_row($dati));
         if(mysqli_num_rows($dati)>0){
             return false;
         }
         return true;
     }
     function controlloForm(){
-        echo "".join("; ",$_POST);
+        #echo "".join("; ",$_POST);
         if(!isset($_POST['name'])||!isset($_POST['surname'])||!isset($_POST['sex'])){
             return false;
         }
