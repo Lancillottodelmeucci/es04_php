@@ -91,7 +91,7 @@
             return false;
         }
         $ref=$_GET['ref'];
-        if($ref!='esito'&&$ref!='risultati'&&$ref!='termina'&&$ref!='nuovo'&&$ref!='ins'){
+        if($ref!='esito'&&$ref!='risultati'&&$ref!='termina'&&$ref!='nuovo'&&$ref!='ins'&&$ref!='reg'&&$ref!='logout'){
             return false;
         }
         return true;

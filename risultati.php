@@ -13,6 +13,7 @@
                 border-collapse: collapse;
                 margin: auto;
                 margin-bottom: 10px;
+                zoom: 1.2;
             }
             table tr td, table tr th{
                 width: fit-content;

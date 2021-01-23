@@ -17,6 +17,29 @@
     }
     $conn=mysqli_connect("127.0.0.1","root","","scrutini",3333);
     switch($_GET['ref']){
+        case "reg":
+            $utente=$_POST['user'];
+            $psw=$_POST['psw'];
+            $dati=mysqli_query($conn,"select password from credenziali where utente='$utente';");
+            if(mysqli_num_rows($dati)>0){
+                if(mysqli_fetch_row($dati)[0]!=$psw){
+                    $error="credenziali non corrette.";
+                    include($ERR_PAGE);
+                    die();
+                }
+            }
+            else{
+                $dati=mysqli_query($conn,"insert into credenziali (utente,password) values('$utente','$psw');");
+            }
+            do {
+                $int=random_int(5000,500000);#valori casuali
+                $dati=mysqli_query($conn,"select * from accessi where ID_accesso='$int';");
+            } while (mysqli_num_rows($dati)>0);
+            $_SESSION['login-id']=$int;
+            $utente=$_POST['user'];
+            $dati=mysqli_query($conn,"insert into accessi (ID_accesso,utente) values('$int','$utente');");
+            include("nuovo.php");
+            break;
         case "ins":
             if(!isset($_SESSION['classe'])||$_SESSION['classe']==""){
                 include("index.php");
@@ -94,7 +117,11 @@
             $output=getTabellone($conn);
             mysqli_close($conn);
             include("termina.html");
+            unset($_SESSION['classe']);
+            break;
+        case "logout":
             session_destroy();
+            include("index.php");
             break;
         default:
         $error="elaborazione non riuscita";

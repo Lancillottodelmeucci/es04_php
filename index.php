@@ -2,12 +2,15 @@
 <html>
     <head>
         <meta name="author" content="Giovanni Ciaranfi"/>
-        <title>Scrutini</title>
+        <title>Home</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <style>
             ul{
                 margin-top: 0px;
                 padding-left: 20px;
+            }
+            sup{
+                font-size: 50%;
             }
         </style>
     </head>
@@ -15,8 +18,8 @@
         <?php $page='home';include("menu.html"); ?>
         Da fare:
         <ul>
-            <li>accesso con credenziali per i docenti</li>
-            <li>visualizzazione delle classi scrutinate</li>
+            <li><sup>1</sup>accesso con credenziali per i docenti</li>
+            <li>visualizzazione delle classi scrutinate<sup>1</sup></li>
             <li>modifica dei dati di uno studente</li>
             <li>scrivere qualcosa nella pagina di info</li>
         </ul>

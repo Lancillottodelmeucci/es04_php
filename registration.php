@@ -2,8 +2,9 @@
     if(session_status()!=PHP_SESSION_ACTIVE){
         session_start();
     }
-    if(!isset($_SESSION['login-id'])){
-        include ("registration.php");
+    if(isset($_SESSION['login-id'])){
+        #interrogazione db
+        include ("nuovo.php");
         die();
     }
 ?>
@@ -24,7 +25,10 @@
                 text-align: center;
                 zoom: 1.2;
             }
-            input[type=text]{
+            label{
+                display: flex;
+            }
+            input[type=text],input[type=password]{
                 border: none;
                 padding: 3px;
                 border-radius: 3px;
@@ -32,7 +36,7 @@
             input[type=text]:focus::after{
             }
             input[type=submit]{
-                margin-top: 5px;
+                margin-top: 15px;
                 padding: 5px 10px;
                 background-color: #cacaca;
                 border: none;
@@ -46,11 +50,12 @@
     </head>
     <body>
         <?php $page='scrutinio';include("menu.html"); ?>
-        <form action="elabora.php?ref=nuovo" method="post">
-            <label for="classe">Classe: </label><input type="text" name="classe" id="classe" pattern="[a-zA-Z1-5 _-]{2,6}"
-                placeholder="es. 5bia" required><br/>
-            <input type="submit" value="Inizia scrutinio" id="submit">
+        <form action="elabora.php?ref=reg" method="post">
+            <label for="utente">Username: </label><input type="text" name="user" id="utente" pattern="[a-zA-Z1-5_-]{3,20}"
+                placeholder="es. Username" required><br/>
+            <label for="password">Password: </label><input type="password" name="psw" id="password" pattern="[a-zA-Z1-5_-]{3,20}"
+                placeholder="es. Username" required><br/>
+            <input type="submit" value="Accedi/Registrati" id="submit">
         </form>
     </body>
 </html>
-<!--mettere pagina di accesso: per ogni docente mettere un set di classi tra cui scegliere per fare lo scrutinio?-->
